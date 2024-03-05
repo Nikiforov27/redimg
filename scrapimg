@@ -1,0 +1,26 @@
+#!/usr/bin/python
+# its python script for downloading pictures from unixporn
+import sys
+import requests
+from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+
+def scrap(url: str):
+    #url = "https://www.reddit.com/search/?q=qtile"
+    user_agent = UserAgent()
+    headers = {"User-Agent": user_agent.random}
+
+    full_page = requests.get(url, headers=headers)
+    soup = BeautifulSoup(full_page.content, 'lxml')
+    
+    img_link_array = []
+
+    for link in soup.find_all("faceplate-img"):
+        #with open("links.txt", "a") as file:
+        if link.get("src")[-4:-1] == ".jp":
+            print(link.get("src"))
+                #file.write(link.get("src")+"\n")
+        else:
+            continue
+    
+scrap("https://www.reddit.com/r/unixporn/search/?q=" + sys.orig_argv[2])

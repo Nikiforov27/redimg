@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+read argv
+
+for link in $(scrapimg $argv)
+do
+wget $link
+done
